@@ -210,7 +210,6 @@ body {
 
 /* FOOTER --------------------------------------------------------*/
 footer {
-    background: #fff;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -218,7 +217,6 @@ footer {
     bottom: 0;
     width: 100vw;
     padding: .5rem 0;
-    background: floralwhite;
     font-size: .75rem;
 }
 
