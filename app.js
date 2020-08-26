@@ -37,13 +37,13 @@ mongoose.connect('mongodb://localhost:27017/hangmanDB', {
 mongoose.set('useCreateIndex', true);
 
 //Mongoose schemas setup
-const gameSchema = new mongoose.Schema({
+const gameSchema = new mongoose.Schema ({
     guessedWord: String,
     gameResult: String,
 });
-const userSchema = new mongoose.Schema({
-    email: String,
+const userSchema = new mongoose.Schema ({
     username: String,
+    name: String,
     googleId: String,
     games: [gameSchema],
 });
@@ -55,17 +55,11 @@ userSchema.plugin(findOrCreate);
 const Game = new mongoose.model('Game', gameSchema);
 
 const User = new mongoose.model('User', userSchema);
+
 passport.use(User.createStrategy());
 
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
-});
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 
 
@@ -73,7 +67,6 @@ passport.deserializeUser(function(id, done) {
 app.get('/', function(req, res) {
     res.render('home');
 });
-
 
 app.get('/login', function(req, res) {
     res.render('login')
@@ -85,7 +78,7 @@ app.get('/register', function(req, res) {
 
 app.get('/game', function(req, res) {
     if (req.isAuthenticated()) {
-        res.render('game', {userName: req.user.username});
+        res.render('game', {userName: req.user.name});
     } else {
         res.redirect('/');
     }
@@ -98,20 +91,34 @@ app.get('/logout', function(req, res) {
 
 //POST requests ------------------------------------
 app.post('/register', function(req, res) {
-    User.register({
-        email: req.body.email,
-        username: req.body.username,
-    }, req.body.password, function(err, user) {
+    User.register({username: req.body.username, name: req.body.name}, req.body.password, function(err, user){
         if (err) {
           console.log(err);
-          res.redirect('/register');
+          res.redirect("/register");
         } else {
-          passport.authenticate('local')(req, res, function() {
-            res.redirect('/game');
-          })
+          passport.authenticate("local")(req, res, function(){
+            res.redirect("/game");
+          });
         }
-      });
+    });
 });
+
+app.post('/login', function(req, res) {
+    const user = new User({
+        username: req.body.username,
+        password: req.body.password
+      });
+    
+      req.login(user, function(err){
+        if (err) {
+          console.log(err);
+        } else {
+          passport.authenticate("local")(req, res, function(){
+            res.redirect("/game");
+          });
+        }
+    });
+})
 
 
 
