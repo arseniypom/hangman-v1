@@ -2,25 +2,28 @@
 <main class='home-main'>
     <div class='home-main_greeting container-fluid'>
         <h1 class='home-main_greeting_header'>Register</h1>
-        <form class="register_form">
-            <div class="form-group" action="/register" method="POST">
+        <form class="register_form" action="/register" method="POST">
+            <div class="form-group">
               <label for="exampleInputEmail1">Email address</label>
-              <input type="email" name="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <input type="email" name="email"  class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email">
               <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Your name</label>
-                <input type="text" name="username"  class="form-control">
+                <input type="text" name="username"  class="form-control" placeholder="Enter your name">
             </div>
             <div class="form-group">
               <label for="exampleInputPassword1">Password</label>
-              <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+              <input type="password" name="password" class="form-control" id="exampleInputPassword1" placeholder="Create a password">
             </div>
             <div class=" form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">I want to have fun!</label>
             </div>
             <button type="submit" class="main-action-button">Continue</button>
+            <div class="go-back-button">
+                <a class="btn btn-secondary btn-sm" href="/" role="button">Go back</a>
+            </div>
           </form>
     </div>
 </main>

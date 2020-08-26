@@ -6,15 +6,26 @@
         <div class='home-main_greeting_option'>
             <h4>New to this site?</h4>
             <form action='/register' method='GET'>
-                <button class='btn btn-warning option-button'>Register</button>
+                <button class='btn btn-secondary option-button'>Register</button>
             </form>
         </div>
         <div class='home-main_greeting_option'>
             <h4>Already have an account?</h4>
             <form action='/login' method='GET'>
-                <button class='btn btn-info option-button'>Log in</button>
+                <button class='btn btn-secondary option-button'>Log in</button>
             </form>
         </div>
+        <h4>or</h4>
+        <a class='g-sign-in-button' href='/auth/google' role='button'>
+            <div class=content-wrapper>
+                <div class='logo-wrapper'>  
+                <img src='/images/btn_google_dark_normal_ios.svg'>
+                </div>  
+                <span class='text-container'> 
+                    <span>Sign in with Google</span>
+                </span>
+            </div>  
+        </a>
         <form action='/game' method='GET'>
             <button class='main-action-button'>Let's go!</button>
         </form>
