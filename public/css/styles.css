@@ -237,8 +237,9 @@ body {
 }
 
 .game_progress-image img {
-    max-width: 20rem;
+    width: 20rem;
     background: #fff;
+    margin-bottom: 1rem;
 }
 
 .game_progress-info {
@@ -272,7 +273,7 @@ body {
 
 @media (max-width: 767px) {
     .game_progress-image img {
-        max-width: 5rem;
+        width: 5rem;
     }
 
     .game_progress-info_item {

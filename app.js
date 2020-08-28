@@ -83,10 +83,8 @@ app.get('/register', function(req, res) {
 });
 
 app.get('/starting-page', function(req, res) {
-    // console.log(req.user);
     if (req.isAuthenticated()) {
-        // req.user.name
-        res.render('starting-page', {userName: 'Stranger'});
+        res.render('starting-page', {userName: req.user.name});
     } else {
         res.redirect('/');
     }
@@ -145,14 +143,6 @@ app.get('/game', function(req, res) {
     }
 });
 
-app.get('/lose', function(req, res) {
-    res.render('lose')
-});
-
-app.get('/win', function(req, res) {
-    res.render('win')
-});
-
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -207,10 +197,12 @@ app.post('/game', function(req, res) {
                                 currentGame.isGameFinished = true;
                                 currentGame.isWin = true;
                                 foundUser.save(function(){
-                                    res.redirect('/win');
+                                    res.render('win', {
+                                        guessedWord: currentGame.guessedWord,
+                                    });
                                 });
                             } else {
-                                window.alert('Неверно! Попробуй еще');
+                                res.redirect('/game');
                             }
                         } else {
                             let isAlreadyTried = false;
@@ -228,14 +220,13 @@ app.post('/game', function(req, res) {
                                     // window.alert('Внимательнее! Эта буква уже была');
                                     res.redirect('/game');
                                 } else {
+                                    let isLetterRight = false;
                                     async function isLetterCorrectCheck() {
-                                        let isLetterRight = false;
-                                        for (let j = 0; j < currentGame.guessedWord.length; j++) {
-                                            if (currentGame.guessedWord[j] === guess) {
+                                        for (let i = 0; i < currentGame.guessedWord.length; i++) {
+                                            if (currentGame.guessedWord[i] === guess) {
                                                 isLetterRight = true;
-                                                currentGame.answerArray[j] = guess;
+                                                currentGame.answerArray.splice(i, 1, guess)
                                                 currentGame.triedLetters.push(guess);
-                                                return isLetterRight;
                                             }
                                         }
                                         return isLetterRight;
@@ -243,9 +234,19 @@ app.post('/game', function(req, res) {
 
                                     const letterDistribute = function(isLetterRight) {
                                         if (isLetterRight) {
-                                            // foundUser.save(function(){
-                                                res.redirect('/game');
-                                            // });
+                                            foundUser.save(function(){
+                                                if (currentGame.answerArray.join('') === currentGame.guessedWord) {
+                                                    currentGame.isGameFinished = true;
+                                                    currentGame.isWin = true;
+                                                    foundUser.save(function(){
+                                                        res.render('win', {
+                                                            guessedWord: currentGame.guessedWord,
+                                                        });
+                                                    });
+                                                } else {
+                                                    res.redirect('/game');
+                                                }
+                                            });
                                         } else {
                                             currentGame.wrongLetters.push(guess);
                                             currentGame.triedLetters.push(guess);
@@ -254,7 +255,9 @@ app.post('/game', function(req, res) {
                                                     currentGame.isGameFinished = true;
                                                     currentGame.isWin = false;
                                                     foundUser.save(function() {
-                                                        res.redirect('/lose');
+                                                        res.render('lose', {
+                                                            guessedWord: currentGame.guessedWord,
+                                                        });
                                                     })
                                                 } else {
                                                     res.redirect('/game');
@@ -263,64 +266,18 @@ app.post('/game', function(req, res) {
                                             });
                                         }
                                     }
-
                                     isLetterCorrectCheck().then(letterDistribute);
                                 }
                             }
-
                             isAlredyTriedCheck().then(letterOperations);
-
                         }
                     } else if (guess === null) {
-                        window.alert('Input should not be empty!');
-                        // res.redirect('/starting-page');
+                        // window.alert('Input should not be empty!');
+                        res.redirect('/game');
                     }
                 }
             })
         }
-        // console.log(foundGame);
-        // if (!err) {
-        //     if (guess !== null) {
-        //         if (guess === `stop`) {
-        //             foundGame.isGameFinished = true;
-        //             res.redirect('/starting-page');
-        //         } else if (guess.length > 1) {
-        //             if (guess === foundGame.guessedWord) {
-        //               window.alert(`Вау, ты угадал слово целиком! Поздравляю с победой! Игра окончена :)`);
-        //               foundGame.isGameFinished = true;
-        //               res.redirect('/starting-page');
-        //             } else {
-        //               window.alert(`Неверно! Попробуй еще`);
-        //             }
-        //         } else {
-        //             let isAlreadyTried = false;
-        //             for (let letter of triedLetters) {
-        //               if (letter === guess) {
-        //                 isAlreadyTried = true;
-        //                 window.alert(`"Внимательнее! Эта буква уже была"`);
-        //               }
-        //             }
-        //             if (!isAlreadyTried) {
-        //               let letterIsRight = false;
-        //               for (let j = 0; j < word.length; j++) {
-        //                 if (word[j] === guess) {
-        //                   letterIsRight = true;
-        //                   answerArray[j] = guess;
-        //                   triedLetters.push(guess);
-        //                 }
-        //               }
-        //               if (!letterIsRight) {
-        //                 wrongLetters.push(guess);
-        //                 triedLetters.push(guess);
-        //                 if (wrongLetters.length === 10) {
-        //                   isGameFinished = true;
-        //                   isWin = false;
-        //                 }
-        //               }
-        //             }
-        //         }
-        //     }
-        // }
     })
 });
 
