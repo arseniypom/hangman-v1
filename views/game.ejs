@@ -25,11 +25,11 @@
                     <img src=<%= imageSource %> alt="">
                 </div>
             </div>
-            <div class="pt-3 pb-3 col-md-6 container-fluid bg-white">
-                <h2 class="game_progress-title mb-3">Progress</h2>
-                <h3 class="game_progress-item">Wrong letters you already tried:</h3>
-                <h4 class="game_progress-item"><span class="border"><%= wrongLetters %></span></h4>
-                <h4 class="game_progress-item">Tries left: <%= triesLeft %></h4>
+            <div class="game_progress-info pt-3 pb-3 col-md-6 container-fluid bg-white">
+                <h2 class="game_progress-info_title">Progress</h2>
+                <h4 class="game_progress-info_item">Wrong letters you already tried:</h4>
+                <h4 class="game_progress-info_item"><span class="border"><%= wrongLetters %></span></h4>
+                <h4 class="game_progress-info_item">Tries left: <%= triesLeft %></h4>
                 <h4>Word: <%= wordToGuess %></h4>
             </div>
         </div>

@@ -241,11 +241,19 @@ body {
     background: #fff;
 }
 
-.game_progress-title {
+.game_progress-info {
     text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
 }
 
-.game_progress-item {
+.game_progress-info_title {
+    margin-bottom: 4rem;
+}
+
+.game_progress-info_item {
     margin-bottom: 1rem;
 }
 
@@ -267,8 +275,12 @@ body {
         max-width: 5rem;
     }
 
-    .game_progress-item {
+    .game_progress-info_item {
         margin-bottom: .5rem;
+    }
+
+    .game_progress-info_title {
+        margin-bottom: 2rem;
     }
 }
 
