@@ -9,6 +9,8 @@ const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
 
+//OAuth Google
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 
 const app = express();
@@ -65,8 +67,30 @@ const User = new mongoose.model('User', userSchema);
 
 passport.use(User.createStrategy());
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function(user, done) {
+    done(null, user);
+});
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
+
+//Google Strategy (Passport)
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: 'http://localhost:3000/auth/google/starting-page'
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile.name.givenName);
+    User.findOrCreate({
+        name: profile.name.givenName,
+        googleId: profile.id,
+    }, function(err, user) {
+        return cb(err, user);
+    });
+  }
+));
 
 //Function to check whether a user has unfinished game
 const existingGameChecker = function(games, callback) {
@@ -98,6 +122,23 @@ app.get('/login', function(req, res) {
 app.get('/register', function(req, res) {
     res.render('register')
 });
+
+//GET requests for Google authentication
+app.get('/auth/google',
+  passport.authenticate('google', {
+    scope: ['profile']
+  })
+);
+
+app.get('/auth/google/starting-page',
+  passport.authenticate('google', {
+    failureRedirect: '/login'
+  }),
+  function(req, res) {
+    // Successful authentication, redirect to starting-page
+    res.redirect('/starting-page');
+  }
+);
 
 app.get('/starting-page', function(req, res) {
     if (req.isAuthenticated()) {
