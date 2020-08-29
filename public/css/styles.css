@@ -216,14 +216,11 @@ body {
 .starting-page_button-group {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
     width: 60%;
 }
 
 @media (max-width: 767px) {
-    .starting-page_button-group {
-        flex-direction: column;
-    }
     .starting-page_button-group a:last-child {
         margin-top: 1rem;
     }
@@ -287,6 +284,7 @@ body {
         margin-bottom: 1.5rem;
     }
 }
+
 
 /* FOOTER ------------------------------------------------------ */
 footer {
