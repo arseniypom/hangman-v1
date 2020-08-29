@@ -31,11 +31,11 @@ const startGame = function startGame(playingUser, callback) {
         let word = guessedWord.toLowerCase();
         let answerArray = [];
         for (let i = 0; i < word.length; i++) {
-            answerArray[i] = `_`;
+            answerArray[i] = `–`;
             if (word[i] == ` `) {
-                answerArray[i] = ` `;
+                answerArray[i] = `__`;
             } else {
-                answerArray[i] = `_`;
+                answerArray[i] = `–`;
             }
         }
         const newGame = {
@@ -52,46 +52,5 @@ const startGame = function startGame(playingUser, callback) {
 }
 
 
-// const inputCheck = function(guess, callback) {
-//     if (guess !== null) {
-//         if (guess == `стоп`) {
-//             isGameFinished = true;
-//         } else if (guess.length > 1) {
-//             if (guess == word) {
-//               window.alert(`Вау, ты угадал слово целиком! Поздравляю с победой! Игра окончена :)`);
-//             } else {
-//               window.alert(`Неверно! Попробуй еще`);
-//             }
-//         } else {
-//             let isAlreadyTried = false;
-//             for (let letter of triedLetters) {
-//               if (letter == guess) {
-//                 isAlreadyTried = true;
-//                 window.alert(`"Внимательнее! Эта буква уже была"`);
-//               }
-//             }
-//             if (!isAlreadyTried) {
-//               let letterIsRight = false;
-//               for (let j = 0; j < word.length; j++) {
-//                 if (word[j] === guess) {
-//                   letterIsRight = true;
-//                   answerArray[j] = guess;
-//                   triedLetters.push(guess);
-//                 }
-//               }
-//               if (!letterIsRight) {
-//                 wrongLetters.push(guess);
-//                 triedLetters.push(guess);
-//                 if (wrongLetters.length == 10) {
-//                   isGameFinished = true;
-//                   isWin = false;
-//                 }
-//               }
-//             }
-//         }
-//     }
-// }
-
 module.exports.startGame = startGame;
-// module.exports.inputCheck = inputCheck;s
 

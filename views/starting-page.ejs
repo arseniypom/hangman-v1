@@ -2,11 +2,11 @@
 <main class='home-main'>
     <div class="home-main_greeting container-sm">
         <h1 class="display-4 text-center">Hello, <%= userName %></h1>
-        <p class="lead">Let's play!</p>
+        <p class="lead"><%= greetingText %></p>
         <div class="starting-page_button-group">
             <a class="btn btn-light" href="/" role="button">Go back</a>
             <form action='/game' method='GET'>
-                <button class='main-action-button'>New game</button>
+                <button class='main-action-button'><%= buttonText %></button>
             </form>
             <a class="btn btn-secondary" href="/logout" role="button">Log out</a>
         </div>

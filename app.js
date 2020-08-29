@@ -67,7 +67,23 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-// const existingGameChecker()
+//Function to check whether a user has unfinished game
+const existingGameChecker = function(games, callback) {
+    if(games.length !== 0) {
+        async function findUnfinishedGame() {
+            let foundGame;
+            games.forEach(game => {
+                if (game.isGameFinished === false) {
+                    foundGame = game;
+                }
+            });
+            return foundGame;
+        }
+        findUnfinishedGame().then(callback);
+    } else {
+        callback(null);
+    }
+}
 
 // GET requests ------------------------------------
 app.get('/', function(req, res) {
@@ -84,7 +100,25 @@ app.get('/register', function(req, res) {
 
 app.get('/starting-page', function(req, res) {
     if (req.isAuthenticated()) {
-        res.render('starting-page', {userName: req.user.name});
+        User.findById(req.user._id, function(err, foundUser) {
+            if (!err) {
+                existingGameChecker(foundUser.games, function(foundGame) {
+                    if (!foundGame) {
+                        res.render('starting-page', {
+                            userName: req.user.name,
+                            buttonText: 'New game',
+                            greetingText: `Let's play!`,
+                        });
+                    } else {
+                        res.render('starting-page', {
+                            userName: req.user.name,
+                            buttonText: 'Continue game',
+                            greetingText: `You have an unfinished game. Let's get back to it, shall we?`,
+                        });
+                    }
+                });
+            }
+        });
     } else {
         res.redirect('/');
     }
@@ -94,24 +128,6 @@ app.get('/game', function(req, res) {
     if (req.isAuthenticated()) {
         User.findById(req.user._id, function(err, foundUser) {
             if (!err) {
-                ///
-                const existingGameChecker = function(games, callback) {
-                    if(games.length !== 0) {
-                        async function findUnfinishedGame() {
-                            let foundGame;
-                            games.forEach(game => {
-                                if (game.isGameFinished === false) {
-                                    foundGame = game;
-                                }
-                            });
-                            return foundGame;
-                        }
-                        findUnfinishedGame().then(callback);
-                    } else {
-                        callback(null);
-                    }
-                }
-                ///
                 existingGameChecker(foundUser.games, function(foundGame) {
                     if (!foundGame) {
                         hangmanGame.startGame(req.user, function(currentGame) {
@@ -122,7 +138,7 @@ app.get('/game', function(req, res) {
                                     res.render('game', {
                                         triesLeft: 7 - newGame.wrongLetters.length,
                                         wrongLetters: newGame.wrongLetters,
-                                        wordToGuess: newGame.answerArray,
+                                        wordArray: newGame.answerArray.join(' '),
                                     });
                                 });
                             }
@@ -131,7 +147,7 @@ app.get('/game', function(req, res) {
                         res.render('game', {
                             triesLeft: 7 - foundGame.wrongLetters.length,
                             wrongLetters: foundGame.wrongLetters,
-                            wordToGuess: foundGame.answerArray,
+                            wordArray: foundGame.answerArray.join(' '),
                         });
                     }
                 })
@@ -180,13 +196,13 @@ app.post('/login', function(req, res) {
 });
 
 app.post('/game', function(req, res) {
-    const guess = req.body.guess.toLowerCase();
+    const guess = req.body.guess.toLowerCase().trim();
     User.findById(req.user._id, function(err, foundUser) {
         if (!err) {
             foundUser.games.forEach(game => {
                 if (game.isGameFinished === false) {
                     const currentGame = game;
-                    if (guess !== null) {
+                    if (guess) {
                         if (guess.length > 1) {
                             if (guess === 'stop') {
                                 currentGame.isGameFinished = true;
@@ -271,7 +287,7 @@ app.post('/game', function(req, res) {
                             }
                             isAlredyTriedCheck().then(letterOperations);
                         }
-                    } else if (guess === null) {
+                    } else if (!guess) {
                         // window.alert('Input should not be empty!');
                         res.redirect('/game');
                     }
