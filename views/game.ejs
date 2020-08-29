@@ -1,14 +1,55 @@
 <%- include('partials/header'); -%>
 <main class='home-main'>
-    <div class="jumbotron">
-        <h1 class="display-4">Coming soon!</h1>
-        <p class="lead">Hello, <%= userName %>!</p>
-        <p class="lead">The Hangman game is being developed and coded. Have some coffee with a doughnut while waiting :)</p>
-        <hr class="my-4">
-        <p>(Please, be patient)</p>
-        <br>
-        <a class="btn btn-primary btn-lg" href="/" role="button">Go back</a>
-        <a class="btn btn-secondary btn-lg" href="/logout" role="button">Log out</a>
+    <div class="container-md">
+        <div class="row game_progress">
+            <div class="mb-3 col-md-4 container-fluid">
+                <div class="game_progress-image">
+                    <% let imageSource;%>
+                    <% if (7-triesLeft === 0) {%>
+                        <% imageSource = "https://cdn4.iconfinder.com/data/icons/love-cartoon-vol-1/100/boy_stick_stickman_human_alone_happy-512.png";%>
+                    <%} else if (7-triesLeft === 1) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/8/8b/Hangman-0.png";%>
+                    <%} else if (7-triesLeft === 2) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Hangman-1.png/120px-Hangman-1.png";%>
+                    <%} else if (7-triesLeft === 3) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Hangman-2.png/120px-Hangman-2.png";%>
+                    <%} else if (7-triesLeft === 4) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Hangman-3.png/120px-Hangman-3.png";%>
+                    <%} else if (7-triesLeft === 5) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Hangman-4.png/120px-Hangman-4.png";%>
+                    <%} else if (7-triesLeft === 6) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Hangman-5.png/120px-Hangman-5.png";%>
+                    <%} else if (7-triesLeft === 7) {%>
+                        <% imageSource = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Hangman-6.png/120px-Hangman-6.png";%>
+                    <%}%>
+                    <img src=<%= imageSource %> alt="">
+                </div>
+            </div>
+            <div class="game_progress-info pt-3 pb-3 col-md-6 container-fluid bg-white">
+                <h2 class="game_progress-info_title">Progress</h2>
+                <h4 class="game_progress-info_item">Wrong letters you already tried:</h4>
+                <h4 class="game_progress-info_item"><span class="border"><%= wrongLetters %></span></h4>
+                <h4 class="game_progress-info_item">Tries left: <%= triesLeft %></h4>
+                <h4>Word: <span><%= wordArray %></span></h4>
+                <% let answer; %>
+                <% if(cheat) {%>
+                    <%answer = 'Cheater!!! The word is: ' + cheatAnswer%>
+                <%} else {%>
+                    <%answer = ''%>
+                <%} %>
+                <p class="text-danger"><%= answer %></p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="game_text-input col-md-7 bg-white">
+                <p class="mb-2">Enter a letter or the whole word. If you want to quit, type 'stop'</p>
+                <form class="guess_form" action="/game" method="POST">
+                    <input class="form-control form-control-lg" name='guess' type="text" placeholder="Your guess" autocomplete="off" autofocus>
+                    <button type="submit" class="btn btn-lg btn-dark ml-3">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 </main>
 

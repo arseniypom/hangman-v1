@@ -4,6 +4,11 @@
     box-sizing: border-box;
 }
 
+/* html, body {
+    width: 100%;
+    height: 100%;
+} */
+
 h1, h2, h3, h4, p, a {
     padding: 0;
     margin: 0;
@@ -18,14 +23,14 @@ body {
     background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);
 }
 
-/* GREETING PAGE --------------------------------------------------------*/
+/* GREETING PAGE ------------------------------------------------------- */
 
 .home-main {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     padding: 3rem 2rem;
 }
 
@@ -40,7 +45,7 @@ body {
 }
 
 .home-main_greeting_header {
-    margin-bottom: 4rem;
+    margin-bottom: 3rem;
     text-align: center;
 }
 
@@ -92,7 +97,7 @@ body {
     transition: all 0.4s ease 0s;
 }
 
-/* Google button start ------------*/
+/* Google button start ------------ */
 .g-sign-in-button {
     margin: 10px;
     display: inline-block;
@@ -140,7 +145,7 @@ body {
       text-align: center;
       width: 180px;
   }
-/* Google button end ------------*/
+/* Google button end ------------ */
 @media (max-width: 767px) {
     .home-main {
         padding: 1.5rem 1rem;
@@ -170,7 +175,7 @@ body {
 }
 
 
-/* REGISTRATION */
+/* REGISTRATION -------------------------------------------- */
 .register_form {
     width: 100%;
     display: flex;
@@ -205,23 +210,101 @@ body {
 }
 
 
-/* LOGIN --------------------------------------------------------*/
+/* LOGIN -------------------------------------------------------- */
 
+/* STARTING PAGE ------------------------------------------------ */
+.starting-page_button-group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 60%;
+}
 
-/* FOOTER --------------------------------------------------------*/
+@media (max-width: 767px) {
+    .starting-page_button-group {
+        flex-direction: column;
+    }
+    .starting-page_button-group a:last-child {
+        margin-top: 1rem;
+    }
+}
+
+/* GAME -------------------------------------------------------- */
+.game_progress {
+    margin-bottom: 1rem;
+}
+
+.game_progress-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.game_progress-image img {
+    width: 20rem;
+    background: #fff;
+}
+
+.game_progress-info {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game_progress-info_title {
+    margin-bottom: 4rem;
+}
+
+.game_progress-info_item {
+    margin-bottom: 1rem;
+}
+
+.game_text-input {
+    width: 100%;
+    margin: 0 auto;
+    padding: .5rem;
+    text-align: center;
+}
+
+.guess_form {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+@media (max-width: 767px) {
+    .game_progress-image img {
+        width: 5rem;
+    }
+
+    .game_progress-info_item {
+        margin-bottom: .5rem;
+    }
+
+    .game_progress-info_title {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* FOOTER ------------------------------------------------------ */
 footer {
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
     bottom: 0;
-    width: 100vw;
+    width: 100%;
+    height: 3rem;
     padding: .5rem 0;
-    font-size: .75rem;
+    font-size: 1rem;
 }
 
 @media (max-width: 767px) {
     footer {
+        height: auto;
         font-size: .5rem;
         padding: .3rem 0;
     }
