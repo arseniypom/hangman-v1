@@ -79,7 +79,7 @@ passport.serializeUser(function(user, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: 'http://localhost:3000/auth/google/starting-page'
+    callbackURL: 'https://powerful-cove-31149.herokuapp.com/auth/google/starting-page'
   },
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({
