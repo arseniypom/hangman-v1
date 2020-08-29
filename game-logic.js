@@ -46,6 +46,7 @@ const startGame = function startGame(playingUser, callback) {
             triedLetters: [],
             isGameFinished: false,
             isWin: false,
+            isCheat: false,
         };
         callback(newGame)
     });

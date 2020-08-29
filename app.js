@@ -46,6 +46,7 @@ const gameSchema = new mongoose.Schema ({
     triedLetters: Array,
     isGameFinished: Boolean,
     isWin: Boolean,
+    isCheat: Boolean,
 });
 const userSchema = new mongoose.Schema ({
     username: String,
@@ -139,6 +140,8 @@ app.get('/game', function(req, res) {
                                         triesLeft: 7 - newGame.wrongLetters.length,
                                         wrongLetters: newGame.wrongLetters,
                                         wordArray: newGame.answerArray.join(' '),
+                                        cheat: newGame.isCheat,
+                                        cheatAnswer: newGame.guessedWord,
                                     });
                                 });
                             }
@@ -148,6 +151,8 @@ app.get('/game', function(req, res) {
                             triesLeft: 7 - foundGame.wrongLetters.length,
                             wrongLetters: foundGame.wrongLetters,
                             wordArray: foundGame.answerArray.join(' '),
+                            cheat: foundGame.isCheat,
+                            cheatAnswer: foundGame.guessedWord,
                         });
                     }
                 })
@@ -208,6 +213,11 @@ app.post('/game', function(req, res) {
                                 currentGame.isGameFinished = true;
                                 foundUser.save(function(){
                                     res.redirect('/starting-page');
+                                });
+                            } else if (guess === 'cheatcode') {
+                                currentGame.isCheat = true;
+                                foundUser.save(function(){
+                                    res.redirect('/game');
                                 });
                             } else if (guess === currentGame.guessedWord) {
                                 currentGame.isGameFinished = true;

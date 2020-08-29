@@ -31,6 +31,13 @@
                 <h4 class="game_progress-info_item"><span class="border"><%= wrongLetters %></span></h4>
                 <h4 class="game_progress-info_item">Tries left: <%= triesLeft %></h4>
                 <h4>Word: <span><%= wordArray %></span></h4>
+                <% let answer; %>
+                <% if(cheat) {%>
+                    <%answer = 'Cheater!!! The word is: ' + cheatAnswer%>
+                <%} else {%>
+                    <%answer = ''%>
+                <%} %>
+                <p class="text-danger"><%= answer %></p>
             </div>
         </div>
         <br>
