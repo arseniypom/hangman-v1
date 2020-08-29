@@ -2,7 +2,7 @@
 This is the **1st** version of **the Hangman Game**.
 
 ## About the game:
-This is a classic Hangman game with the registration / signing in with Google account
+This is a classic Hangman game with registration / sign in through Google account
 * It is built on **Node JS**, using *ejs*
 * Connection to **MongoDB** database is established through mongoose, the database is stored on Atlas
 * *Passport* is used to hash and salt passwords and to sign in with Google, **the password themselves are not stored in the database**
