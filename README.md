@@ -10,6 +10,7 @@ This is a classic Hangman game with registration / sign in through Google accoun
 
 ## Link to the game:
 https://powerful-cove-31149.herokuapp.com/
+
 **NOTE!** Before playing you have to register / login / sign in with Google
 
 ## Enjoy!
