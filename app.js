@@ -32,10 +32,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //Mongoose connection setup
-mongoose.connect('mongodb://localhost:27017/hangmanDB', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
+mongoose.connect(`mongodb+srv://admin-arseniy:${process.env.PASSWORD}@cluster0.kwkdp.mongodb.net/hangmanDB?retryWrites=true&w=majority`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
 });
 mongoose.set('useCreateIndex', true);
 
@@ -82,7 +82,6 @@ passport.use(new GoogleStrategy({
     callbackURL: 'http://localhost:3000/auth/google/starting-page'
   },
   function(accessToken, refreshToken, profile, cb) {
-    console.log(profile.name.givenName);
     User.findOrCreate({
         name: profile.name.givenName,
         googleId: profile.id,
@@ -155,7 +154,7 @@ app.get('/starting-page', function(req, res) {
                         res.render('starting-page', {
                             userName: req.user.name,
                             buttonText: 'Continue game',
-                            greetingText: `You have an unfinished game. Let's get back to it, shall we?`,
+                            greetingText: `You have one unfinished game. Let's get back to it, shall we?`,
                         });
                     }
                 });
